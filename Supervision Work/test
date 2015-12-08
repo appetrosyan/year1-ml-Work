@@ -1,0 +1,10 @@
+fun concat (x,[]) = x | concat ([],x) = x | concat (x::xs, y) = x::concat (xs,y);
+fun allcons ([],xs)= xs | allcons (z,[]) = [] | allcons (z, x::xs) = concat (z,x)::allcons(z,xs);
+fun getlen [] = 0 | getlen (x::xs) = 1 + getlen xs;
+fun choiceHelper (n, l, x::xs :'a list) = if n>l then []
+else if n=l then [x::xs]
+else if n=1 then concat ([[x]],choiceHelper (1,l-1,xs))
+else concat(allcons ([x], choiceHelper (n-1,l-1,xs)), choiceHelper (n,l-1,xs))
+| choiceHelper (_,_,[]) = [];
+choiceHelper (1,4,[1,2,3]);
+fun choose (n, x) = choiceHelper (n, getlen(x), x);
